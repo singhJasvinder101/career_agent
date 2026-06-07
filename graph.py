@@ -1,3 +1,5 @@
+from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.memory import InMemorySaver
 from nodes.memory import memory_retrieve_node
 from nodes.memory import memory_update_node
 from langchain_core.globals import set_debug, set_verbose
@@ -23,13 +25,24 @@ graph.add_edge("memory_retrieve", "planner")
 graph.add_edge("planner", "memory_update")
 graph.add_edge("memory_update", END)
 
-agent = graph.compile()
+
+checkpointer = InMemorySaver()
+agent = graph.compile(
+    checkpointer=checkpointer
+)
 
 
 if __name__ == "__main__":
     prompt = input("Enter your prompt: ")
-    result = agent.invoke({
-        "prompt": prompt
-    })
+    result = agent.invoke(
+        {
+            "messages": HumanMessage(content=prompt)
+        },
+        {
+            "configurable": {
+                "thread_id": "user-1"
+            }
+        }
+    )
 
     print(result)

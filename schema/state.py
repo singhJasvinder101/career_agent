@@ -1,7 +1,5 @@
-from schema.schema import Plan
-from typing import TypedDict
+from langgraph.graph import MessagesState
 
-class GraphState(TypedDict):
-    prompt: str
+class GraphState(MessagesState):
     user_state: dict
-    plan: Plan
+    plan: dict

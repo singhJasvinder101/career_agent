@@ -8,7 +8,7 @@ structured_llm = llm.with_structured_output(UpdateMemory)
 
 
 def memory_update_node(state: GraphState) -> GraphState:
-    prompt = memory_prompt(state["prompt"])
+    prompt = memory_prompt(state["messages"][-1]["content"])
     response = structured_llm.invoke(prompt)
     if response.should_update:
         MEMORY[response.key] = response.value
