@@ -6,7 +6,7 @@ from nodes.llm import llm
 structured_llm = llm.with_structured_output(Plan)
 
 def planner_node(state: GraphState) -> GraphState:
-    last_message = state["messages"][-1]["content"]
+    last_message = state["messages"][-1].content
 
     response = structured_llm.invoke(
         planner_prompt(
