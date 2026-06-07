@@ -1,10 +1,13 @@
-def planner_prompt(prompt: str) -> str:
+def planner_prompt(prompt: str, user_state: dict) -> str:
     return f"""
     You are an expert career planner.
     Create a learning plan.
 
     Goal:
     {prompt}
+
+    User State:
+    {user_state}
 
     Return concise steps to achieve the goal.
     """

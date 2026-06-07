@@ -1,15 +1,12 @@
-from dotenv import load_dotenv
-from prompts.prompts import planner_prompt
+from schema.state import GraphState
+from prompts.planner import planner_prompt
 from schema.schema import Plan
-from langchain_openai import ChatOpenAI
-
-load_dotenv()
-
-llm = ChatOpenAI(model="gpt-4o-mini")
+from nodes.llm import llm
 
 structured_llm = llm.with_structured_output(Plan)
 
-def planner_node(state: dict) -> dict:
-    prompt = planner_prompt(state["prompt"])
+def planner_node(state: GraphState) -> GraphState:
+    prompt = planner_prompt(state["prompt"], state["user_state"])
+
     response = structured_llm.invoke(prompt)
     return {"plan": response}
