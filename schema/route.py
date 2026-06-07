@@ -4,4 +4,4 @@ from pydantic import BaseModel
 
 
 class Route(BaseModel):
-    destination: Literal["planner", "memory_update"]
+    destination: Literal["planner", "memory_update", "chat"]

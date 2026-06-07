@@ -10,6 +10,6 @@ structured_llm = llm.with_structured_output(
 def router_node(state: GraphState) -> GraphState:
     last_message = state["messages"][-1].content
     response = structured_llm.invoke(
-        router_prompt(last_message)
+        router_prompt(last_message, state.get("user_state", {}))
     )
     return {"route": response.destination}
